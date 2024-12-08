@@ -1,9 +1,9 @@
 # Cloud Computing and Web Development Final Project
 ## Project Title: Hospital Appointments Management System
 ### Team Members:
-- [x] 1. DUSHIME Rene Fabrice 216073618: System Design & Architecture, Database Integration, Kafka Implementation, System Testing & Deployment
+-  DUSHIME Rene Fabrice 216073618: System Design & Architecture, Database Integration, Kafka Implementation, System Testing & Deployment
 
-      2. Mediatrice DUSENGE 218002150 : User interfaces Design, Frontend Development, Admin Dashboard Features, Documentation & Reporting
+-  Mediatrice DUSENGE 218002150 : User interfaces Design, Frontend Development, Admin Dashboard Features, Documentation & Reporting
 
 ### Presentation video link: [Click here](https://drive.google.com/file/d/1BFESZC5GS4Lr7KnOMKysqHmfM4rYq372/view?usp=sharing)
 
