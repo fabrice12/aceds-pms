@@ -1,9 +1,13 @@
 # Cloud Computing and Web Development Final Project
 ## Project Title: Hospital Appointments Management System
 ### Team Members:
-- [x] 1.  [DUSHIME Rene Fabrice 216073618]
-  2.  [Mediatrice DUSENGE 218002150]
+- [x] 1. DUSHIME Rene Fabrice 216073618: System Design & Architecture, Database Integration, Kafka Implementation, System Testing & Deployment
 
+   3. Mediatrice DUSENGE 218002150 : User interfaces Design, Frontend Development, Admin Dashboard Features, Documentation & Reporting
+
+### Presentation video link: [Click here](https://drive.google.com/file/d/1BFESZC5GS4Lr7KnOMKysqHmfM4rYq372/view?usp=sharing)
+
+https://drive.google.com/file/d/1BFESZC5GS4Lr7KnOMKysqHmfM4rYq372/view?usp=sharing
 
 ### Case Study:
 In traditional healthcare environments, patients often face significant challenges when trying to see a doctor. A common scenario occurs when a patient visits a hospital, spends hours waiting, only to find out that the doctor is unavailable or not working that day. This results in wasted time, frustration, and dissatisfaction for the patient, as well as a negative perception of the hospital’s services. Such inefficiencies highlight a critical gap in hospital operations and patient communication, ultimately leading to poor service quality and resource mismanagement.
@@ -57,3 +61,34 @@ The Hospital Appointments Management System is built using a variety of technolo
 **Database Technologies:** AWS RDS MySQL
 
 **Libraries :** mysql-connector-python, kafka-python, hdfs
+
+### Project Deployment:
+To run this project on your local machine, you need to follow these steps:
+
+**Step 1:** Clone the repository using the following command:
+
+```git clone https://github.com/fabrice12/aceds-pms.git```
+
+**Step 2:** Install the required libraries using the following command:
+
+```pip install -r <library name>```
+
+**Step 3:** Set database update the database settings in the settings.py file.
+
+**Step 4:** Create a database using the following command:
+
+```python manage.py migrate```
+
+**Step 5:** Create a superuser using the following command:
+
+```python manage.py createsuperuser```
+
+**Step 7:** Set Kafka and HDFS configurations in the views.py file.:
+
+
+**Step 9:** Run the Django server using the following command:
+
+```python manage.py runserver```
+
+
+

@@ -10,6 +10,7 @@ from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
+from docutils.nodes import pending
 from hdfs import InsecureClient
 from kafka import KafkaProducer
 
@@ -84,12 +85,18 @@ def create_rendezvous(request):
                 # rendezvous.patient = request.user
                 # rendezvous.save()
                 client=InsecureClient(HDFS_URL,user='dr.who')
-                file=request.FILES['file_path']
+                file_path=None
+                if 'file_path' in request.FILES:
+                    file=request.FILES['file_path']
+                    file_path=f'{HDFS_PATH}/{file.name}'
+                    with client.write(f'{HDFS_PATH}/{file.name}', overwrite=True) as writer:
+                        for chunk in file.chunks():
+                            writer.write(chunk)
                 # print file name
-                print(file.name)
-                with client.write(f'{HDFS_PATH}/{file.name}',overwrite=True) as writer:
-                    for chunk in file.chunks():
-                        writer.write(chunk)
+
+
+
+
 
                 rendezvous_data = {
                     'patient_id': request.user.id,  # Serialize patient ID
@@ -100,7 +107,7 @@ def create_rendezvous(request):
                     'contact_number': form.cleaned_data['contact_number'],
                     'insurance_provider': form.cleaned_data['insurance_provider'],
                     'additional_notes': form.cleaned_data['additional_notes'],
-                    'file_path': f'{HDFS_PATH}/{file.name}'
+                    'file_path': file_path
                 }
 
                 # Send data to Kafka
@@ -146,7 +153,7 @@ def rendezvous_update(request, pk):
 
 def rendezvous_delete(request, pk):
     rendezvous = get_object_or_404(Rendezvous, pk=pk)
-    if request.method == 'POST':
+    if request.method == 'GET':
         rendezvous.delete()
         return redirect('patient_dashboard')
 
@@ -177,12 +184,23 @@ def admin_dashboard(request):
         total_pending_rdv=Rendezvous.objects.filter(status='PENDING').count()
         total_approved_rdv=Rendezvous.objects.filter(status='APPROVED').count()
 
+        pending_rdvs=Rendezvous.objects.filter(status="PENDING").order_by('-request_date')[:10]
+
+        for rdv in pending_rdvs:
+            if rdv.file_path:
+                rdv.download_file=f"{HDFS_URL}/webhdfs/v1{rdv.file_path}?op=OPEN"
+        #         print file path
+                print(rdv.download_file)
+
+
+
         # Pass the counts to the template
         context = {
             'above_18_count': above_18_count,
             'below_18_count': below_18_count,
             'total_pending_rdv':total_pending_rdv,
-            'total_approved_rdv':total_approved_rdv
+            'total_approved_rdv':total_approved_rdv,
+            'pending_rdvs':pending_rdvs
         }
     except Exception as e:
         print(f"Error fetching data: {e}")

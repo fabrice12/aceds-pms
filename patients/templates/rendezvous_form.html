@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'create_rendezvous' %}" enctype="multipart/form-data">
+<form method="post" action="{% if form.instance.pk %}{% url 'update_rendezvous' form.instance.pk %}{% else %}{% url 'create_rendezvous' %} {% endif %}" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="mb-3">
         <label for="id_department" class="form-label">Department</label>

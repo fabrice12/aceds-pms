@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
-
+HDFS_URL = "http://167.99.86.23:9870"
 class SystemUser(AbstractUser):
     USER_TYPES=(
         ('ADMIN','Admin'),
@@ -65,3 +65,6 @@ class Rendezvous(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
     reply = models.TextField(null=True, blank=True)
     file_path = models.CharField(max_length=255, blank=True, null=True)
+
+    def get_download_url(self):
+        return f"{HDFS_URL}/webhdfs/v1{self.file_path}?op=OPEN"

@@ -37,7 +37,7 @@
                     <div class="d-flex align-items-center gap-2">
                         {#                        add logout button#}
                         <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
-                        <span class=" ">Welcome, Admin</span>
+                        <span class=" ">Welcome</span>
                         <span class="d-flex rounded-circle align-items-center  bg-success-subtle justify-content-center"
                               style="height: 50px;width: 50px;">
                             Ad
@@ -101,6 +101,9 @@
                                         data-bs-target="#addRendezvousModal"
                                         onclick="openRendezVousModal('{% url 'update_rendezvous' rendezvous.pk %}')">Update
                                 </button>
+                                 <a class="btn btn-sm btn-danger px-4 rounded-pill"  href="{% url 'delete_rendezvous' rendezvous.pk %}"
+                                      >Delete
+                                </a>
 
                                 {#                                <button class="btn btn-sm btn-danger px-4 rounded-pill" data-bs-toggle="modal"#}
                                 {#                                        data-bs-target="#deleteModal"#}
