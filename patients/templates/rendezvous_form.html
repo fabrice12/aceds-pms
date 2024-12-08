@@ -1,0 +1,41 @@
+<form method="post" action="{% url 'create_rendezvous' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_department" class="form-label">Department</label>
+        {{ form.department }}
+    </div>
+    <div class="mb-3">
+        <label for="id_urgency_level" class="form-label">Symptoms</label>
+        {{ form.symptoms }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_preferred_date" class="form-label">Preferred Date</label>
+        {{ form.preferred_date }}
+    </div>
+     <div class="mb-3">
+        <label for="id_preferred_date" class="form-label">Your Insurance</label>
+        {{ form.insurance_provider }}
+    </div>
+    <div class="mb-3">
+        <label for="id_preferred_date" class="form-label">Contact Number</label>
+        {{ form.contact_number }}
+    </div>
+    <div class="mb-3">
+        <label for="id_urgency_level" class="form-label">Urgency Level</label>
+        {{ form.urgency_level }}
+    </div>
+    <div class="mb-3">
+        <label for="id_urgency_level" class="form-label">Additional Notes</label>
+        {{ form.additional_notes }}
+    </div>
+    <div class="mb-3">
+        <label for="id_file_path" class="form-label">Upload File</label>
+        {{ form.file_path }}
+    </div>
+    {#                        <div class="mb-3">#}
+    {#                            <label for="id_file_upload" class="form-label">Upload File</label>#}
+    {#                            {{ form.file_upload }}#}
+    {#                        </div>#}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

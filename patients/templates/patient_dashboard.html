@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        .text-justify {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body class="min-vh-100">
+
+<div class="container min-vh-100">
+    <div class="d-flex min-vh-100 flex-column justify-content-start">
+        <nav class="navbar mb-2 navbar-expand-lg  bg-opacity-10">
+            <div class="container">
+                <a class="navbar-brand fs-2 fw-bolder" href="#">PMS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav fw-semibold mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Requests</a>
+                        </li>
+
+                    </ul>
+                    <div class="d-flex align-items-center gap-2">
+                        {#                        add logout button#}
+                        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                        <span class=" ">Welcome, Admin</span>
+                        <span class="d-flex rounded-circle align-items-center  bg-success-subtle justify-content-center"
+                              style="height: 50px;width: 50px;">
+                            Ad
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="row mt-4">
+
+            <div class="d-flex justify-content-between align-items-center justify-content-end mb-1">
+                <h2>My Appointments</h2>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#addRendezvousModal"
+                        onclick="openRendezVousModal('{% url 'create_rendezvous' %}')">
+                    Schedule an appointment
+                </button>
+            </div>
+            <table class="table table-striped mt-4">
+                <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Department</th>
+                    <th>Symptoms</th>
+                    <th>Urgency Level</th>
+                    <th>Contact Number</th>
+                    <th>Preferred Date</th>
+                    <th>Request Date</th>
+                    <th>Assigned Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for rendezvous in rendezvous_requests %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ rendezvous.department.name }}</td>
+                        <td>{{ rendezvous.symptoms }}</td>
+                        <td>{{ rendezvous.get_urgency_level_display }}</td>
+                        <td>{{ rendezvous.contact_number }}</td>
+                        <td>{{ rendezvous.preferred_date|date:"Y-m-d" }}</td>
+                        <td>{{ rendezvous.request_date|date:"Y-m-d H:i" }}</td>
+                        <td>{{ rendezvous.assigned_date|default:"N/A" }}</td>
+                        <td>
+                            {% if rendezvous.status == 'PENDING' %}
+                                <span class="badge bg-warning text-dark">{{ rendezvous.get_status_display }}</span>
+                            {% elif rendezvous.status == 'APPROVED' %}
+                                <span class="badge bg-success">{{ rendezvous.get_status_display }}</span>
+                            {% elif rendezvous.status == 'REJECTED' %}
+                                <span class="badge bg-danger">{{ rendezvous.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rendezvous.status == 'PENDING' %}
+
+
+
+                                <button class="btn btn-sm btn-warning px-4 rounded-pill" data-bs-toggle="modal"
+                                        data-bs-target="#addRendezvousModal"
+                                        onclick="openRendezVousModal('{% url 'update_rendezvous' rendezvous.pk %}')">Update
+                                </button>
+
+                                {#                                <button class="btn btn-sm btn-danger px-4 rounded-pill" data-bs-toggle="modal"#}
+                                {#                                        data-bs-target="#deleteModal"#}
+                                {#                                        onclick="openDeleteModal('{% url 'rendezvous_delete' book.pk %}', '{{ book.title }}')">#}
+                                {#                                    Delete#}
+                                {#                                </button>#}
+
+                            {% else %}
+                                <span class="text-muted">No actions available</span>
+                            {% endif %}
+                        </td>
+                        {#                        <td>#}
+                        {#                            {% if rendezvous.file_upload %}#}
+                        {#                                <a href="{{ rendezvous.file_upload.url }}" target="_blank">View File</a>#}
+                        {#                            {% else %}#}
+                        {#                                No file uploaded#}
+                        {#                            {% endif %}#}
+                        {#                        </td>#}
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No rendezvous requests found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {#    rendez vous model #}
+        <div class="modal fade" id="addRendezvousModal" tabindex="-1" aria-labelledby="addRendezvousModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addRendezvousModalLabel">Add New Rendezvous</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-content">
+                        <!-- Form -->
+                        {#                        <form method="post" action="{% url 'create_rendezvous' %}" enctype="multipart/form-data">#}
+                        {#                            {% csrf_token %}#}
+                        {#                            <div class="mb-3">#}
+                        {#                                <label for="id_department" class="form-label">Department</label>#}
+                        {#                                {{ form.department }}#}
+                        {#                            </div>#}
+                        {#                            <div class="mb-3">#}
+                        {#                                <label for="id_urgency_level" class="form-label">Symptoms</label>#}
+                        {#                                {{ form.symptoms }}#}
+                        {#                            </div>#}
+                        {##}
+                        {#                            <div class="mb-3">#}
+                        {#                                <label for="id_preferred_date" class="form-label">Preferred Date</label>#}
+                        {#                                {{ form.preferred_date }}#}
+                        {#                            </div>#}
+                        {#                            <div class="mb-3">#}
+                        {#                                <label for="id_urgency_level" class="form-label">Urgency Level</label>#}
+                        {#                                {{ form.urgency_level }}#}
+                        {#                            </div>#}
+                        {#                            <div class="mb-3">#}
+                        {#                                <label for="id_urgency_level" class="form-label">Additional Notes</label>#}
+                        {#                                {{ form.additional_notes }}#}
+                        {#                            </div>#}
+                        {#                        <div class="mb-3">#}
+                        {#                            <label for="id_file_upload" class="form-label">Upload File</label>#}
+                        {#                            {{ form.file_upload }}#}
+                        {#                        </div>#}
+                        {#                            <button type="submit" class="btn btn-primary">Submit</button>#}
+                        {#                        </form>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="bg-success fixed-bottom bg-opacity-10 d-flex justify-content-center w-100">
+                <span class="text-black  text-center text-sm py-3">Patient Management System</span>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script>
+    function openRendezVousModal(url) {
+        //disable the submit button
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById('modal-body-content').innerHTML = data.html;
+                document.querySelector('#addRendezvousModal form').addEventListener('submit', function (event) {
+
+                    event.preventDefault();
+                    submitRendezVousForm(this);
+                });
+            });
+    }
+
+    function submitRendezVousForm(form) {
+        document.querySelector('#addRendezvousModal form button[type="submit"]').disabled = true;
+        //change the button text
+        document.querySelector('#addRendezvousModal form button[type="submit"]').textContent = 'Processing...';
+
+        const url = form.action;
+        const formData = new FormData(form);
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    location.reload(); // Reload the page to see the changes
+                } else {
+                    document.getElementById('modal-body-content').innerHTML = data.html;
+                    document.querySelector('#addRendezvousModal form').addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        submitRendezVousForm(this);
+                    });
+                }
+            });
+    }
+
+
+</script>
+</body>
+</html>

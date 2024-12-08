@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        .text-justify {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body class="min-vh-100">
+
+<div class="container min-vh-100">
+    <div class="d-flex min-vh-100 flex-column justify-content-between">
+        <nav class="navbar mb-2 navbar-expand-lg  bg-opacity-10">
+            <div class="container">
+                <a class="navbar-brand fs-2 fw-bolder" href="#">PMS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav fw-semibold mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="row align-items-center d-flex justify-content-between mb-3">
+            <div class="col-lg-5 py-5">
+                <img src="{% static 'images/nurse.png' %}" alt="cartoon" class="img-fluid">
+            </div>
+            <div class="col-lg-5  bg-opacity-10 rounded-bottom-pill  rounded-start-0">
+                <div class="card rounded-4 p-4 card-body">
+                    <h1 class="text-center fw-semibold mb-3">Login</h1>
+                    <p class="text-center mb-3">
+                        Please enter your phone and password to login.
+                    </p>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}alert-
+                                {{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show"
+                                 role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Phone number</label>
+                            <input type="text" class="form-control" name="phone" id="email"
+                                   aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="password">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">Remember me</label>
+                        </div>
+                        <div class="d-grid my-3 gap-2">
+                            <button type="submit" class="btn py-2  btn-success">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <footer>
+            <div class="bg-success fixed-bottom bg-opacity-10 d-flex justify-content-center w-100">
+                <span class="text-black  text-center text-sm py-3">Patient Management System</span>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        .text-justify {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body class="min-vh-100">
+
+<div class="container min-vh-100">
+    <div class="d-flex min-vh-100 flex-column justify-content-between">
+        <nav class="navbar mb-2 navbar-expand-lg  bg-opacity-10">
+            <div class="container">
+                <a class="navbar-brand fs-2 fw-bolder" href="#">PMS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav fw-semibold mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="row align-items-center d-flex justify-content-between mb-3">
+            <div class="col-lg-5 py-5">
+                <img src="{% static 'images/nurse.png' %}" alt="cartoon" class="img-fluid">
+            </div>
+            <div class="col-lg-5  bg-opacity-10 rounded-bottom-pill  rounded-start-0">
+                <div class="card rounded-4 p-4 py-4 card-body">
+                    <h1 class="text-center fw-semibold mb-3">Register</h1>
+                    <p class="text-center mb-3">
+                        Enter your details to create patient account.
+                    </p>
+                     <!-- Display Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+                    <form method="post" action="{% url 'register_create' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_first_name" class="form-label">{{ form.first_name.label }}</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="text-danger">
+                                    {{ form.first_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_last_name" class="form-label">{{ form.last_name.label }}</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="text-danger">
+                                    {{ form.last_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_date_of_birth" class="form-label">{{ form.date_of_birth.label }}</label>
+                            {{ form.date_of_birth }}
+                            {% if form.date_of_birth.errors %}
+                                <div class="text-danger">
+                                    {{ form.date_of_birth.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_national_id" class="form-label">{{ form.national_id.label }}</label>
+                            {{ form.national_id }}
+                            {% if form.national_id.errors %}
+                                <div class="text-danger">
+                                    {{ form.national_id.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_phone_number" class="form-label">{{ form.phone_number.label }}</label>
+                            {{ form.phone_number }}
+                            {% if form.phone_number.errors %}
+                                <div class="text-danger">
+                                    {{ form.phone_number.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">{{ form.email.label }}</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">{{ form.password.label }}</label>
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="text-danger">
+                                    {{ form.password.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid my-3 gap-2">
+                            <button type="submit" class="btn py-2  btn-success">Register</button>
+                        </div>
+                        <p class="text-center text-muted">
+                            Already have an account? <a href="login.html" class="text-decoration-none">Login</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <footer>
+            <div class="bg-success  bg-opacity-10 d-flex  w-100">
+                <span class="text-black  text-center text-sm py-3">Patient Management System</span>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

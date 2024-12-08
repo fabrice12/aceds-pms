@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <style>
+    .text-justify {
+      text-align: justify;
+    }
+  </style>
+</head>
+<body class="min-vh-100">
+
+<div class="container min-vh-100">
+  <div class="d-flex min-vh-100 flex-column justify-content-between">
+    <nav class="navbar mb-2 navbar-expand-lg  bg-opacity-10">
+      <div class="container">
+        <a class="navbar-brand fs-2 fw-bolder" href="#">PMS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav fw-semibold mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="row mb-3">
+      <div class="col-lg-7  bg-opacity-10 rounded-bottom-pill  rounded-start-0">
+
+        <div class="container overflow-hidden">
+          <h5 class="mt-5 display-4 text-success  fw-bolder">
+            Patient Management System
+          </h5>
+          <p class="text-justify me-5  fw-normal  my-5 pe-5 text-black ">
+            Lorem ipsum dolor sit amet, Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent bland
+          </p>
+          <div class="d-flex ">
+            <a href="{% url 'register' %}" class="btn btn-success fw-bold">Register</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-success fw-bold ms-2">Login</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 py-5">
+        <img src="{% static 'images/nurse.png' %}" alt="cartoon" class="img-fluid">
+      </div>
+    </div>
+    <footer>
+      <div class="bg-success fixed-bottom bg-opacity-10 d-flex justify-content-center w-100">
+        <span class="text-black  text-center text-sm py-3">Patient Management System</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>
